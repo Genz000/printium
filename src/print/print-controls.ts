@@ -59,6 +59,16 @@ export const toneControls = {
     min: -100, max: 100, step: 1, editableRange: { hardMin: -100 },
     description: "Spreads or compresses the image tones before the print pattern.",
   },
+  highlights: {
+    ...live, ...slider, type: "slider", target: "tone.highlights", label: "Highlights", defaultValue: d.highlights,
+    min: -100, max: 100, step: 1, editableRange: { hardMin: -100, hardMax: 100 },
+    description: "Lightens or darkens only the light tones. Lower brings speckle into bright areas; higher clears them to paper.",
+  },
+  shadows: {
+    ...live, ...slider, type: "slider", target: "tone.shadows", label: "Shadows", defaultValue: d.shadows,
+    min: -100, max: 100, step: 1, editableRange: { hardMin: -100, hardMax: 100 },
+    description: "Lightens or darkens only the dark tones. Higher opens solid ink into texture; lower fills it in.",
+  },
   threshold: {
     ...live, ...slider, type: "slider", target: "tone.threshold", label: "Threshold", defaultValue: d.threshold,
     min: 1, max: 255, step: 1, editableRange: { hardMin: 1, hardMax: 255 },

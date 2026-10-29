@@ -12,6 +12,11 @@ describe("print settings", () => {
     });
   });
 
+  it("reads Highlights and Shadows, neutral by default", () => {
+    expect(readPrintSettings({})).toMatchObject({ highlights: 0, shadows: 0 });
+    expect(readPrintSettings({ "tone.highlights": -40, "tone.shadows": 25 })).toMatchObject({ highlights: -40, shadows: 25 });
+  });
+
   it("falls back on invalid values", () => {
     const s = readPrintSettings({ "source.fit": "stretch", "tone.threshold": Number.NaN, "color.paperFill": "yes" });
     expect(s.fit).toBe(printDefaults.fit);

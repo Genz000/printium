@@ -6,7 +6,7 @@ void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
 /**
  * One pass of the Photoshop recipe, evaluated per pixel in scene pixels so preview and
  * export show the same pattern:
- *  1. image luminance (+ brightness / contrast)
+ *  1. image luminance (+ brightness / contrast, then highlights / shadows)
  *  2. Grain adjustment: midtone-weighted noise (Amount, Size, Roughness)
  *  3. 50% grey texture: Halftone Pattern dots (Size, Contrast) embossed by Craquelure
  *     (Spacing, Depth, Brightness)
@@ -21,7 +21,7 @@ uniform float uScale;     // backing pixels per scene pixel
 uniform vec4 uRect;       // image rect in scene pixels (x, y, w, h)
 uniform sampler2D uImage;
 uniform float uHasImage;
-uniform float uBrightness, uContrast;
+uniform float uBrightness, uContrast, uHighlights, uShadows;
 uniform float uGrainAmount, uGrainSize, uGrainRough;
 uniform float uDotSize, uDotContrast;
 uniform float uCrackSpacing, uCrackDepth, uCrackBright;
@@ -124,6 +124,11 @@ void main() {
   float L = luma(src.rgb);
   L = (L - 0.5) * (1.0 + uContrast / 100.0) + 0.5 + uBrightness / 100.0;
   L = clamp(L, 0.0, 1.0);
+  // Highlights moves only the light tones and Shadows only the dark ones; each fades
+  // out toward the other end, so midtones move least. Positive lightens (less ink).
+  float hiW = L * L;
+  float shW = (1.0 - L) * (1.0 - L);
+  L = clamp(L + uHighlights / 100.0 * 0.5 * hiW + uShadows / 100.0 * 0.5 * shW, 0.0, 1.0);
 
   // Grain hits midtones hardest, like Photoshop's Grain adjustment.
   float mid = 0.35 + 0.65 * (1.0 - pow(2.0 * L - 1.0, 2.0));

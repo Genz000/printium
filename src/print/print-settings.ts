@@ -16,6 +16,8 @@ export type PrintSettings = {
   tolerance: number;
   brightness: number;
   contrast: number;
+  highlights: number;
+  shadows: number;
   grainAmount: number;
   grainSize: number;
   grainRoughness: number;
@@ -39,6 +41,8 @@ export const printDefaults: PrintSettings & { background: string } = {
   tolerance: 24,
   brightness: 0,
   contrast: 0,
+  highlights: 0,
+  shadows: 0,
   grainAmount: 100,
   grainSize: 25,
   grainRoughness: 50,
@@ -56,7 +60,7 @@ export const printDefaults: PrintSettings & { background: string } = {
 };
 
 export const imageTargets = ["source.fit", "source.scale", "source.cutout", "source.tolerance"] as const;
-export const toneTargets = ["tone.brightness", "tone.contrast", "tone.threshold"] as const;
+export const toneTargets = ["tone.brightness", "tone.contrast", "tone.highlights", "tone.shadows", "tone.threshold"] as const;
 export const grainTargets = ["grain.amount", "grain.size", "grain.roughness"] as const;
 export const textureTargets = [
   "texture.dotSize", "texture.dotContrast", "texture.crackSpacing", "texture.crackDepth", "texture.crackBrightness", "texture.opacity",
@@ -78,6 +82,8 @@ export function readPrintSettings(values: Readonly<Record<string, unknown>>): Pr
     tolerance: n("source.tolerance", d.tolerance),
     brightness: n("tone.brightness", d.brightness),
     contrast: n("tone.contrast", d.contrast),
+    highlights: n("tone.highlights", d.highlights),
+    shadows: n("tone.shadows", d.shadows),
     grainAmount: n("grain.amount", d.grainAmount),
     grainSize: n("grain.size", d.grainSize),
     grainRoughness: n("grain.roughness", d.grainRoughness),

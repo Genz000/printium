@@ -4,9 +4,19 @@
 
 Mode: product
 
-Active change: printium-1
+Active change: printium-2
 
 ## Decision Trail
+
+### Change ID: printium-2
+
+- Entry type: focused
+- Change ID: printium-2
+- Request: "I want to add one more feature in the control panel, which is controlling the value of highlights and shadows. and push the update in the GitHub repo."
+- Changed owner: src/print/print-settings.ts, print-controls.ts (Tone: tone.highlights, tone.shadows), print-shader.ts, print-gl.ts, print.test.ts; README.md.
+- User-visible result: Tone gains Highlights and Shadows sliders (-100 to 100, default 0). After Brightness/Contrast, Highlights shifts luminance weighted by L², Shadows weighted by (1-L)², so each moves only its end of the range; positive lightens (less ink).
+- Verification: typecheck, ai:check and app tests pass except the three known Windows-only kit failures; rocket renders at Highlights -80 and Shadows +80 compared with defaults on the tuning sheet; both sliders present in the Tone section.
+- Risks: None beyond earlier entries.
 
 ### Change ID: printium-1
 

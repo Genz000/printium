@@ -5,7 +5,7 @@ import type { PrintSource } from "./print-source";
 type Surface = HTMLCanvasElement | OffscreenCanvas;
 
 const UNIFORMS = [
-  "uRes", "uScale", "uRect", "uImage", "uHasImage", "uBrightness", "uContrast",
+  "uRes", "uScale", "uRect", "uImage", "uHasImage", "uBrightness", "uContrast", "uHighlights", "uShadows",
   "uGrainAmount", "uGrainSize", "uGrainRough", "uDotSize", "uDotContrast",
   "uCrackSpacing", "uCrackDepth", "uCrackBright", "uOpacity", "uThreshold", "uInk", "uPaper", "uPaperFill",
 ] as const;
@@ -93,6 +93,8 @@ export class PrintRenderer {
     gl.uniform1f(l.uHasImage, s ? 1 : 0);
     gl.uniform1f(l.uBrightness, settings.brightness);
     gl.uniform1f(l.uContrast, settings.contrast);
+    gl.uniform1f(l.uHighlights, settings.highlights);
+    gl.uniform1f(l.uShadows, settings.shadows);
     gl.uniform1f(l.uGrainAmount, settings.grainAmount);
     gl.uniform1f(l.uGrainSize, settings.grainSize);
     gl.uniform1f(l.uGrainRough, settings.grainRoughness);
